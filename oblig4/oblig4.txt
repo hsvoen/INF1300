@@ -1,0 +1,21 @@
+Oblig 4 INF 1300
+
+A)
+
+Selskap( id, Telefonnummer, Nettside)
+Forelegger(id)
+Bibliotek(id, eier)
+Bok(ISBN, utgiver, PåLagerMåned)
+Kapittel(ISBN, kappitelNr )	(flere kandidat nøkkler istedet?)
+Måned(Kode)
+Salg(bok, måned, Euro)
+Resultat(Euro)
+
+Fremmednøkkler:
+Forelegger(id) → Selskap(id)
+Kapittel(ISBN) → Bok(ISBN)
+Bok(utgiver) → forelegger(id)
+Bibliotek(eier) → Forelegger(id)
+Salg(Euro) → Resultat(Euro)
+Bok(PåLagerMåned) → Måned(kode) 
+Salg(Bok, Måned) → Bok(ISBN, månedkode) (subset nøkkel)
