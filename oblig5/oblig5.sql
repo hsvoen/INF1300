@@ -77,8 +77,38 @@ NATURAL JOIN film f;
 
 -- 8. Lag en tabell over antall sjanger filmer med tittel som inneholder tekstrengen 'Antonie ', skriv ut fimlid, tittel og antall sjangrer, inkludert filmer uten sjangrer
 
-SELECT filmid, title, COUNT(*)
+WITH number_of_genres AS (
+	SELECT filmid, COUNT(*) AS genre_numbers
+	FROM film f NATURAL JOIN filmgenre fg
+	WHERE f.title LIKE '%Antoine %'
+	GROUP BY filmid
+)
+
+SELECT distinct f.filmid, title, genre_numbers
+FROM film f LEFT OUTER JOIN filmgenre fg ON f.filmid = fg.filmid
+LEFT OUTER JOIN number_of_genres ng ON ng.filmid = f.filmid
+WHERE f.title LIKE '%Antoine %'
+ORDER BY f.filmid;
 
 
-GROUP BY genre;
+-- 9. Hvilke skuespillere (navn og antall filmer) har spilt figurer med unikt rollenavn i mer enn 199 filmer?
+
+WITH unique_role AS (
+	SELECT fc.filmcharacter
+	FROM filmcharacter fc 
+	GROUP BY fc.filmcharacter
+	HAVING COUNT(*) = 1
+
+)
+
+SELECT firstname || ' ' || lastname as name, COUNT(*) AS number_of_movies
+FROM unique_role NATURAL JOIN filmcharacter fc NATURAL JOIN filmparticipation fp
+NATURAL JOIN person p
+GROUP BY p.firstname, p.lastname
+ORDER BY COUNT(*) DESC;
+
+
+
+
+
 
