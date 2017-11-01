@@ -56,3 +56,29 @@ SELECT title, parttype, count(*)
 FROM film f NATURAL JOIN filmitem fi NATURAL JOIN filmparticipation fp
 WHERE fi.filmtype = 'C' AND f.title LIKE '%Lord of the Rings%'
 GROUP BY title, parttype;
+
+
+-- 7. Finn filmer som er med både film-Noir og Comedy
+
+WITH Comedy AS (
+	SELECT filmid
+	FROM filmgenre
+	WHERE filmgenre.genre = 'Comedy'
+),
+Noire AS (
+	SELECT filmid
+	FROM filmgenre
+	WHERE filmgenre.genre = 'Film-Noir'
+)
+SELECT *
+FROM Comedy Natural JOIN Noire 
+NATURAL JOIN film f;
+
+
+-- 8. Lag en tabell over antall sjanger filmer med tittel som inneholder tekstrengen 'Antonie ', skriv ut fimlid, tittel og antall sjangrer, inkludert filmer uten sjangrer
+
+SELECT filmid, title, COUNT(*)
+
+
+GROUP BY genre;
+
